@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "swr": "^2.2.0",
+    "typescript": "^5.1.6"
+  },
+  "name": "swirl",
+  "version": "1.0.0",
+  "description": "Wrapper for SWR",
+  "main": "src/index.ts",
+  "repository": "https://github.com/pablonajera/swirl.git",
+  "author": "Pablo Najera <pablo@najera.cc>",
+  "license": "MIT"
+}
