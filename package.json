@@ -1,13 +1,25 @@
 {
-  "dependencies": {
-    "swr": "^2.2.0",
-    "typescript": "^5.1.6"
-  },
-  "name": "swirl",
-  "version": "1.0.0",
+  "name": "@pablonajera/swirl",
+  "version": "1.0.1",
   "description": "Wrapper for SWR",
-  "main": "src/index.ts",
+  "main": "dist/pablonajera-swirl.cjs.js",
+  "module": "dist/pablonajera-swirl.esm.js",
   "repository": "https://github.com/pablonajera/swirl.git",
   "author": "Pablo Najera <pablo@najera.cc>",
-  "license": "MIT"
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "preconstruct build",
+    "release": "yarn build && npm publish --access public"
+  },
+  "dependencies": {
+    "swr": "^2.2.0"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.22.5",
+    "@preconstruct/cli": "^2.8.1",
+    "typescript": "^5.1.6"
+  }
 }

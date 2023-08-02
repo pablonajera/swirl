@@ -1,17 +1,18 @@
-import useSWR from 'swr';
-import { fetcher } from './fetcher';
-import { RequestOptions } from '../types/request-options';
+import useSWR from "swr";
+import { fetcher } from "./fetcher";
+import { RequestOptions } from "../types/request-options";
+import { Response } from "../types/response";
 
 export function makeNonCachingRequest<T>({
   url,
   method,
   body,
   config,
-}: RequestOptions<T>) {
+}: RequestOptions<T>): Response<T> {
   const options: RequestInit = {
     method,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   };

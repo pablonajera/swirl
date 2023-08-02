@@ -1,7 +1,6 @@
-// errors.ts
 export class RequestError extends Error {
-  info: any;
   status: number;
+  info: any;
 
   constructor(message: string, info: any, status: number) {
     super(message);

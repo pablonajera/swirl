@@ -1,4 +1,4 @@
-import { SWRConfiguration } from 'swr';
+import { SWRConfiguration } from "swr";
 
 export interface RequestOptions<T> {
   url: string;
