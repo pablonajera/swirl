@@ -4,9 +4,16 @@
   "description": "Wrapper for SWR",
   "main": "dist/pablonajera-swirl.cjs.js",
   "module": "dist/pablonajera-swirl.esm.js",
+  "type": "module",
   "repository": "https://github.com/pablonajera/swirl.git",
   "author": "Pablo Najera <pablo@najera.cc>",
   "license": "MIT",
+  "exports": {
+    ".": {
+        "import": "./dist/pablonajera-swirl.esm.js",
+        "require": "./dist/pablonajera-swirl.cjs.js"
+    }
+  },
   "files": [
     "dist"
   ],

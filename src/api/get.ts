@@ -1,9 +1,9 @@
-import { type GetOptions } from '../types/get-options'
-import { type Response } from '../types/response'
-import { cache } from '../utils/cache'
-import { deepCompare } from '../utils/deep-compare'
-import { parametrize } from '../utils/parametrize'
-import { pick } from '../utils/pick'
+import { type GetOptions } from '../types/get-options.js'
+import { type Response } from '../types/response.js'
+import { cache } from '../utils/cache.js'
+import { deepCompare } from '../utils/deep-compare.js'
+import { parametrize } from '../utils/parametrize.js'
+import { pick } from '../utils/pick.js'
 
 export function get<T> (
   url: string,

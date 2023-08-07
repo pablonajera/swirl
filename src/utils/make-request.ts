@@ -1,7 +1,7 @@
-import { type RequestOptions } from '../types/request-options'
-import { type Response } from '../types/response'
-import { parametrize } from './parametrize'
-import { pick } from './pick'
+import { type RequestOptions } from '../types/request-options.js'
+import { type Response } from '../types/response.js'
+import { parametrize } from './parametrize.js'
+import { pick } from './pick.js'
 
 export function makeRequest<T> ({
   url,

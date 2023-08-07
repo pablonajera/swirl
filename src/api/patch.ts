@@ -1,5 +1,5 @@
-import { makeRequest } from '../utils/make-request'
-import { type Response } from '../types/response'
+import { makeRequest } from '../utils/make-request.js'
+import { type Response } from '../types/response.js'
 
 export function patch<T> ({
   url,
