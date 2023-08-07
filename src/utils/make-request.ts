@@ -28,16 +28,14 @@ export function makeRequest<T> ({
     statusCode: undefined
   }
 
+  let finalUrl = url
+
   if (parameters != null) {
     const queryString = parametrize(parameters)
-    if (url.includes('?')) {
-      url = `${url}&${queryString}`
-    } else {
-      url = `${url}?${queryString}`
-    }
+    finalUrl = url.includes('?') ? `${url}&${queryString}` : `${url}?${queryString}`
   }
 
-  fetch(url, {
+  fetch(finalUrl, {
     method,
     body: JSON.stringify(body),
     ...cleanedOptions
