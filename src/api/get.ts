@@ -85,7 +85,7 @@ export function useGet<T> (
     'integrity'
   ])
 
-  if (cleanedOptions.headers === null) {
+  if (cleanedOptions.headers == null) {
     cleanedOptions.headers = {
       Accept: 'application/json',
       'Content-Type': 'application/json'

@@ -28,6 +28,13 @@ export function makeRequest<T> ({
     statusCode: undefined
   }
 
+  if (cleanedOptions.headers == null) {
+    cleanedOptions.headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+
   let finalUrl = url
 
   if (parameters != null) {
