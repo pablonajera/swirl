@@ -40,6 +40,13 @@ export function useDelete<T> ({
     'integrity'
   ])
 
+  if (cleanedOptions.headers === null) {
+    cleanedOptions.headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+
   const [data, setData] = useState()
   const [isLoading, setLoading] = useState(true)
   const [error, setError] = useState()
