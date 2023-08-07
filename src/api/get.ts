@@ -7,7 +7,7 @@ import { pick } from '../utils/pick.js'
 
 export function get<T> (
   url: string,
-  { parameters = null, disableCache = false, options = {} }: GetOptions
+  { parameters = null, disableCache = false, options = {} }: GetOptions = {}
 ): Response<T> {
   const cleanedOptions = pick(options, [
     'headers',
