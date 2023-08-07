@@ -10,8 +10,8 @@
   "license": "MIT",
   "exports": {
     ".": {
-        "import": "./dist/pablonajera-swirl.esm.js",
-        "require": "./dist/pablonajera-swirl.cjs.js"
+      "import": "./dist/pablonajera-swirl.esm.js",
+      "require": "./dist/pablonajera-swirl.cjs.js"
     }
   },
   "files": [
@@ -25,11 +25,13 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
+    "react": "^18.2.0",
     "stable-hash": "^0.0.3"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.22.5",
     "@preconstruct/cli": "^2.8.1",
+    "@types/react": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.0.1",
