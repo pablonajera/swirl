@@ -4,7 +4,7 @@ import hash from 'stable-hash'
 export class LocalCache {
   private readonly maxSize: number
   private readonly dataMap: Map<string, string>
-  private readonly storage: Storage | null
+  private storage: Storage | null
   private readonly storagePrefix: string = 'SWIRL_DATA'
 
   constructor ({
@@ -17,11 +17,25 @@ export class LocalCache {
     this.maxSize = maxSize
     this.dataMap = new Map()
 
-    if (useLocalStorage) {
+    if (useLocalStorage && window != null) {
       this.storage = window?.localStorage ?? null
       this.rehydrateFromLocalStorage()
     } else {
+      this.tryWaitingForStorage(useLocalStorage)
       this.storage = null
+    }
+  }
+
+  private tryWaitingForStorage (useLocalStorage: boolean): void {
+    if (document != null) {
+      document?.addEventListener('DOMContentLoaded', () => {
+        if (useLocalStorage && window != null) {
+          this.storage = window?.localStorage ?? null
+          this.rehydrateFromLocalStorage()
+        } else {
+          this.storage = null
+        }
+      })
     }
   }
 
