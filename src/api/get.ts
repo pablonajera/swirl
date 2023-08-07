@@ -1,71 +1,70 @@
-import { GetOptions } from "../types/get-options";
-import { Response } from "../types/response";
-import { cache } from "../utils/cache";
-import { deepCompare } from "../utils/deep-compare";
-import { parametrize } from "../utils/parametrize";
-import { pick } from "../utils/pick";
+import { type GetOptions } from '../types/get-options'
+import { type Response } from '../types/response'
+import { cache } from '../utils/cache'
+import { deepCompare } from '../utils/deep-compare'
+import { parametrize } from '../utils/parametrize'
+import { pick } from '../utils/pick'
 
-export function get<T>(
+export function get<T> (
   url: string,
   { parameters = null, disableCache = false, options = {} }: GetOptions
 ): Response<T> {
   const cleanedOptions = pick(options, [
-    "headers",
-    "mode",
-    "credentials",
-    "cache",
-    "redirect",
-    "referrer",
-    "referrerPolicy",
-    "integrity",
-  ]);
+    'headers',
+    'mode',
+    'credentials',
+    'cache',
+    'redirect',
+    'referrer',
+    'referrerPolicy',
+    'integrity'
+  ])
 
   const response: Response<T> = {
     data: undefined,
     isLoading: true,
     error: undefined,
-    statusCode: undefined,
-  };
-
-  if (parameters) {
-    const queryString = parametrize(parameters);
-    if (url.includes("?")) {
-      url = `${url}&${queryString}`;
-    } else {
-      url = `${url}?${queryString}`;
-    }
+    statusCode: undefined
   }
 
-  if (!disableCache && cache.has(url)) {
-    response.data = cache.get(url);
-    response.isLoading = false;
+  let finalUrl = url
+
+  if (parameters != null) {
+    const queryString = parametrize(parameters)
+    finalUrl = url.includes('?') ? `${url}&${queryString}` : `${url}?${queryString}`
   }
 
-  fetch(url, {
-    method: "GET",
-    ...cleanedOptions,
+  if (!disableCache && cache.has(finalUrl)) {
+    response.data = cache.get(finalUrl)
+    response.isLoading = false
+  }
+
+  fetch(finalUrl, {
+    method: 'GET',
+    ...cleanedOptions
   })
-    .then((apiResponse) => {
-      response.statusCode = apiResponse.status;
+    .then(async (apiResponse) => {
+      response.statusCode = apiResponse.status
       if (apiResponse.ok) {
-        return apiResponse.json();
+        const responseData = await apiResponse.json()
+        return responseData
       }
-      return Promise.reject(response);
+      return await Promise.reject(response)
     })
     .then((responseData) => {
       if (!deepCompare(responseData, response.data)) {
-        response.data = responseData;
+        response.data = responseData
         if (!disableCache) {
-          cache.set(url, responseData);
+          cache.set(url, responseData)
         }
       }
     })
     .catch((error) => {
-      response.error = error;
+      response.error = error
     })
     .finally(() => {
-      response.isLoading = false;
-    });
+      response.isLoading = false
+    })
 
-  return response;
+  return response
 }

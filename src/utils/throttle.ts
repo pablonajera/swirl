@@ -1,13 +1,13 @@
-export function throttle(func: () => void, interval: number): () => void {
-  let canExecute = true;
+export function throttle (func: () => void, interval: number): () => void {
+  let canExecute = true
 
   return () => {
     if (canExecute) {
-      func();
-      canExecute = false;
+      func()
+      canExecute = false
       setTimeout(() => {
-        canExecute = true;
-      }, interval);
+        canExecute = true
+      }, interval)
     }
-  };
+  }
 }

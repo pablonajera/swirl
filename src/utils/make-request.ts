@@ -1,63 +1,63 @@
-import { RequestOptions } from "../types/request-options";
-import { Response } from "../types/response";
-import { parametrize } from "./parametrize";
-import { pick } from "./pick";
+import { type RequestOptions } from '../types/request-options'
+import { type Response } from '../types/response'
+import { parametrize } from './parametrize'
+import { pick } from './pick'
 
-export function makeRequest<T>({
+export function makeRequest<T> ({
   url,
   method,
   parameters = {},
   body = {},
-  options = {},
+  options = {}
 }: RequestOptions): Response<T> {
   const cleanedOptions = pick(options, [
-    "headers",
-    "mode",
-    "credentials",
-    "cache",
-    "redirect",
-    "referrer",
-    "referrerPolicy",
-    "integrity",
-  ]);
+    'headers',
+    'mode',
+    'credentials',
+    'cache',
+    'redirect',
+    'referrer',
+    'referrerPolicy',
+    'integrity'
+  ])
 
   const response: Response<T> = {
     data: undefined,
     isLoading: true,
     error: undefined,
-    statusCode: undefined,
-  };
+    statusCode: undefined
+  }
 
-  if (parameters) {
-    const queryString = parametrize(parameters);
-    if (url.includes("?")) {
-      url = `${url}&${queryString}`;
+  if (parameters != null) {
+    const queryString = parametrize(parameters)
+    if (url.includes('?')) {
+      url = `${url}&${queryString}`
     } else {
-      url = `${url}?${queryString}`;
+      url = `${url}?${queryString}`
     }
   }
 
   fetch(url, {
     method,
     body: JSON.stringify(body),
-    ...cleanedOptions,
+    ...cleanedOptions
   })
-    .then((apiResponse) => {
-      response.statusCode = apiResponse.status;
+    .then(async (apiResponse) => {
+      response.statusCode = apiResponse.status
       if (apiResponse.ok) {
-        return apiResponse.json();
+        return await apiResponse.json()
       }
-      return Promise.reject(response);
+      return await Promise.reject(response)
     })
     .then((responseData) => {
-      response.data = responseData;
+      response.data = responseData
     })
     .catch((error) => {
-      response.error = error;
+      response.error = error
     })
     .finally(() => {
-      response.isLoading = false;
-    });
+      response.isLoading = false
+    })
 
-  return response;
+  return response
 }
