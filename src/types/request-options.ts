@@ -1,8 +1,7 @@
-import { SWRConfiguration } from "swr";
-
-export interface RequestOptions<T> {
+export interface RequestOptions {
   url: string;
-  method: string;
+  method: "POST" | "PATCH" | "DELETE" | "PUT";
+  parameters?: Record<string, any> | null;
   body?: any;
-  config?: SWRConfiguration<T, any>;
+  options?: RequestInit;
 }

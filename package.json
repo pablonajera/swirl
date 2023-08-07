@@ -1,6 +1,6 @@
 {
   "name": "@pablonajera/swirl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Wrapper for SWR",
   "main": "dist/pablonajera-swirl.cjs.js",
   "module": "dist/pablonajera-swirl.esm.js",
@@ -15,7 +15,8 @@
     "release": "yarn build && npm publish --access public"
   },
   "dependencies": {
-    "swr": "^2.2.0"
+    "chalk": "^5.3.0",
+    "stable-hash": "^0.0.3"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.22.5",

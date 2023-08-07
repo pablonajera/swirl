@@ -1,7 +1,7 @@
 import { makeRequest } from "../utils/make-request";
 import { Response } from "../types/response";
 
-export function del<T>({
+export function put<T>({
   url,
   body = {},
   parameters = {},
@@ -12,5 +12,5 @@ export function del<T>({
   parameters?: Record<string, any> | null;
   options?: RequestInit;
 }): Response<T> {
-  return makeRequest({ url, method: "DELETE", body, parameters, options });
+  return makeRequest({ url, method: "PUT", body, parameters, options });
 }

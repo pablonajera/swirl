@@ -1,14 +1,15 @@
-import { GetOptions } from "../types/get-options";
+import { RequestOptions } from "../types/request-options";
 import { Response } from "../types/response";
-import { cache } from "../utils/cache";
-import { deepCompare } from "../utils/deep-compare";
-import { parametrize } from "../utils/parametrize";
-import { pick } from "../utils/pick";
+import { parametrize } from "./parametrize";
+import { pick } from "./pick";
 
-export function get<T>(
-  url: string,
-  { parameters = null, disableCache = false, options = {} }: GetOptions
-): Response<T> {
+export function makeRequest<T>({
+  url,
+  method,
+  parameters = {},
+  body = {},
+  options = {},
+}: RequestOptions): Response<T> {
   const cleanedOptions = pick(options, [
     "headers",
     "mode",
@@ -36,13 +37,9 @@ export function get<T>(
     }
   }
 
-  if (!disableCache && cache.has(url)) {
-    response.data = cache.get(url);
-    response.isLoading = false;
-  }
-
   fetch(url, {
-    method: "GET",
+    method,
+    body: JSON.stringify(body),
     ...cleanedOptions,
   })
     .then((apiResponse) => {
@@ -53,12 +50,7 @@ export function get<T>(
       return Promise.reject(response);
     })
     .then((responseData) => {
-      if (!deepCompare(responseData, response.data)) {
-        response.data = responseData;
-        if (!disableCache) {
-          cache.set(url, responseData);
-        }
-      }
+      response.data = responseData;
     })
     .catch((error) => {
       response.error = error;
