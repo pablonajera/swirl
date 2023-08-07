@@ -1,6 +1,6 @@
 {
   "name": "@pablonajera/swirl",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Wrapper for SWR",
   "main": "dist/pablonajera-swirl.cjs.js",
   "module": "dist/pablonajera-swirl.esm.js",
