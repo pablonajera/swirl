@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { type GetOptions } from '../types/get-options.js'
 import { type Response } from '../types/response.js'
 import { cache } from '../utils/cache.js'
-import { isReact } from '../utils/check-react.js'
 import { deepCompare } from '../utils/deep-compare.js'
 import { parametrize } from '../utils/parametrize.js'
 import { pick } from '../utils/pick.js'
@@ -75,9 +74,6 @@ export function useGet<T> (
   url: string,
   { parameters = null, disableCache = false, options = {} }: GetOptions = {}
 ): Response<T> {
-  if (!isReact) {
-    throw new Error('useGet can only be used in a React application')
-  }
   const cleanedOptions = pick(options, [
     'headers',
     'mode',
