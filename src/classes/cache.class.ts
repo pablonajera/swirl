@@ -17,7 +17,7 @@ export class LocalCache {
     this.maxSize = maxSize
     this.dataMap = new Map()
 
-    if (useLocalStorage && window != null) {
+    if (useLocalStorage && typeof window !== 'undefined') {
       this.storage = window?.localStorage ?? null
       this.rehydrateFromLocalStorage()
     } else {
@@ -29,7 +29,7 @@ export class LocalCache {
   private tryWaitingForStorage (useLocalStorage: boolean): void {
     if (document != null) {
       document?.addEventListener('DOMContentLoaded', () => {
-        if (useLocalStorage && window != null) {
+        if (useLocalStorage && typeof window !== 'undefined') {
           this.storage = window?.localStorage ?? null
           this.rehydrateFromLocalStorage()
         } else {
