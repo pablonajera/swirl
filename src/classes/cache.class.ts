@@ -27,7 +27,7 @@ export class LocalCache {
   }
 
   private tryWaitingForStorage (useLocalStorage: boolean): void {
-    if (document != null) {
+    if (typeof document !== 'undefined') {
       document?.addEventListener('DOMContentLoaded', () => {
         if (useLocalStorage && typeof window !== 'undefined') {
           this.storage = window?.localStorage ?? null
