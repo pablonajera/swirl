@@ -85,12 +85,10 @@ export function useGet<T> (
     'integrity'
   ])
 
-  const [response, setResponse] = useState({
-    data: undefined,
-    isLoading: true,
-    error: undefined,
-    statusCode: undefined
-  })
+  const [data, setData] = useState()
+  const [isLoading, setLoading] = useState(true)
+  const [error, setError] = useState()
+  const [statusCode, setStatusCode] = useState<number | undefined>(undefined)
 
   let finalUrl = url
 
@@ -100,11 +98,8 @@ export function useGet<T> (
   }
 
   if (!disableCache && cache.has(finalUrl)) {
-    setResponse({
-      ...response,
-      data: cache.get(finalUrl),
-      isLoading: false
-    })
+    setData(cache.get(finalUrl))
+    setLoading(false)
   }
 
   fetch(finalUrl, {
@@ -112,10 +107,7 @@ export function useGet<T> (
     ...cleanedOptions
   })
     .then(async (apiResponse) => {
-      setResponse({
-        ...response,
-        statusCode: apiResponse.status
-      })
+      setStatusCode(apiResponse.status)
       if (apiResponse.ok) {
         const responseData = await apiResponse.json()
         return responseData
@@ -123,28 +115,24 @@ export function useGet<T> (
       return await Promise.reject(apiResponse)
     })
     .then((responseData) => {
-      if (!deepCompare(responseData, response.data)) {
-        setResponse({
-          ...response,
-          data: responseData
-        })
+      if (!deepCompare(responseData, data)) {
+        setData(responseData)
         if (!disableCache) {
           cache.set(url, responseData)
         }
       }
     })
     .catch((error) => {
-      setResponse({
-        ...response,
-        error
-      })
+      setError(error)
     })
     .finally(() => {
-      setResponse({
-        ...response,
-        isLoading: false
-      })
+      setLoading(false)
     })
 
-  return response
+  return {
+    data,
+    isLoading,
+    error,
+    statusCode
+  }
 }
