@@ -45,7 +45,7 @@ export function makeRequest<T> ({
       if (apiResponse.ok) {
         return await apiResponse.json()
       }
-      return await Promise.reject(response)
+      return await Promise.reject(apiResponse)
     })
     .then((responseData) => {
       response.data = responseData
