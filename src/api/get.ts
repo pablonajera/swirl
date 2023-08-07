@@ -97,11 +97,12 @@ export function useGet<T> (
     finalUrl = url.includes('?') ? `${url}&${queryString}` : `${url}?${queryString}`
   }
 
-  if (!disableCache && cache.has(finalUrl)) {
-    setData(cache.get(finalUrl))
-    setLoading(false)
-  }
   useEffect(() => {
+    if (!disableCache && cache.has(finalUrl)) {
+      setData(cache.get(finalUrl))
+      setLoading(false)
+    }
+
     fetch(finalUrl, {
       method: 'GET',
       ...cleanedOptions
