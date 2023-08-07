@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { type GetOptions } from '../types/get-options.js'
 import { type Response } from '../types/response.js'
 import { cache } from '../utils/cache.js'
@@ -101,33 +101,34 @@ export function useGet<T> (
     setData(cache.get(finalUrl))
     setLoading(false)
   }
-
-  fetch(finalUrl, {
-    method: 'GET',
-    ...cleanedOptions
-  })
-    .then(async (apiResponse) => {
-      setStatusCode(apiResponse.status)
-      if (apiResponse.ok) {
-        const responseData = await apiResponse.json()
-        return responseData
-      }
-      return await Promise.reject(apiResponse)
+  useEffect(() => {
+    fetch(finalUrl, {
+      method: 'GET',
+      ...cleanedOptions
     })
-    .then((responseData) => {
-      if (!deepCompare(responseData, data)) {
-        setData(responseData)
-        if (!disableCache) {
-          cache.set(url, responseData)
+      .then(async (apiResponse) => {
+        setStatusCode(apiResponse.status)
+        if (apiResponse.ok) {
+          const responseData = await apiResponse.json()
+          return responseData
         }
-      }
-    })
-    .catch((error) => {
-      setError(error)
-    })
-    .finally(() => {
-      setLoading(false)
-    })
+        return await Promise.reject(apiResponse)
+      })
+      .then((responseData) => {
+        if (!deepCompare(responseData, data)) {
+          setData(responseData)
+          if (!disableCache) {
+            cache.set(url, responseData)
+          }
+        }
+      })
+      .catch((apiError) => {
+        setError(apiError)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [])
 
   return {
     data,
